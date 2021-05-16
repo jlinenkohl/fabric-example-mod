@@ -17,6 +17,9 @@ public class ExampleMod implements ModInitializer {
 
 		// Register the new item
 		Registry.register(Registry.ITEM, new Identifier("tutorial", "fabric_item"), FABRIC_ITEM);
+
 	}
 	public static final Item FABRIC_ITEM = new Item(new FabricItemSettings().group(ItemGroup.MISC));
+//	public static final FabricItem FABRIC_ITEM = new FabricItem(new FabricItemSettings().group(ItemGroup.MISC).maxCount(16));
+
 }
