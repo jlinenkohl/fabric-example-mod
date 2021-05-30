@@ -37,7 +37,11 @@ public abstract class SnowballEntityMixin {
     //        System.out.println("DEBUG: m_onEntityHit() called.");
     //        entity.damage(DamageSource.thrownProjectile(this, this.getOwner()), (float)i);
         Explosion.DestructionType destructionType = Explosion.DestructionType.DESTROY;
-        e.world.createExplosion(e, e.getX(), e.getY(), e.getZ(), 3.0F, true, destructionType);
+        e.world.createExplosion(e, e.getX(), e.getY(), e.getZ(), 5.0F, destructionType);
+        // cast to get the actual source
+        float damage = 35.0F;
+        SnowballEntity m_this = ((SnowballEntity)(Object)this);
+        e.damage(DamageSource.thrownProjectile(m_this, m_this.getOwner()), damage);
     }
 }
 
