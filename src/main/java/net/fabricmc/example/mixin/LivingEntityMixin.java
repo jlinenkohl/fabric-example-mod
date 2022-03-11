@@ -8,6 +8,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.world.*;
 import net.minecraft.world.explosion.*;
+import net.minecraft.util.math.Vec3d;
+
 
 import org.apache.logging.log4j.core.net.ssl.StoreConfiguration;
 import org.spongepowered.asm.mixin.Mixin;
@@ -59,24 +61,18 @@ public abstract class LivingEntityMixin {
         }
     } // end onDeath()
 
-/*
-        if (this.getClass().getName().toString().toLowerCase().matches("^.*mob.skeleton.*$")) {
-            Entity e = (Entity)(Object)this;
-            Explosion.DestructionType destructionType = e.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
-            //e.dead = true;
-            e.world.createExplosion(e, e.getX(), e.getY(), e.getZ(), 3.0F, true, destructionType);
-            e.remove();
-            //e.spawnEffectsCloud();
+    @Inject(method = "travel", 
+        at = @At("HEAD"))
+    private void m_onTravel(Vec3d movementInput, CallbackInfo info) {
+        if ((Object)(this) instanceof CreeperEntity) {
+            CreeperEntity e = (CreeperEntity)(Object)this;
+//            System.out.println("DEBUG: CreeperEntity current movementSpeed: " + e.getMovementSpeed());
+//            System.out.println("DEBUG: CreeperEntity setMovementSpeed()");
+            e.setMovementSpeed(e.getMovementSpeed() * 2.0F);
+//            Vec3d m_Movement = e.getVelocity();
+//            e.updateVelocity(e.getMovementSpeed(), m_Movement);
+//            System.out.println("DEBUG: CreeperEntity new movementSpeed: " + e.getMovementSpeed());
         }
-
-        if (this.getClass().getName().toString().toLowerCase().matches("^.*mob.spider.*$")) {
-            Entity e = (Entity)(Object)this;
-            Explosion.DestructionType destructionType = e.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
-            //e.dead = true;
-            e.world.createExplosion(e, e.getX(), e.getY(), e.getZ(), 3.0F, true, destructionType);
-            e.remove();
-            //e.spawnEffectsCloud();
-        }
-*/
+    }
 
 } // end class EntityMixin
