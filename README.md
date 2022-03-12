@@ -43,3 +43,4 @@ https://github.com/FabricMC/fabric/releases/download/0.34.6%2B1.16/fabric-api-0.
 ## License
 This mod is provided under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
 
+Note: the "creeper" branch incorporates code from Sindarin27 and is released under GPL.
