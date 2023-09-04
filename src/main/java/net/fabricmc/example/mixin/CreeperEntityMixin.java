@@ -1,5 +1,7 @@
 package net.fabricmc.example.mixin;
 
+import net.fabricmc.example.mixin.CreeperEntityAccessor;
+
 import net.fabricmc.example.FarsightedMobs;
 import net.minecraft.command.argument.Vec3ArgumentType;
 import net.minecraft.entity.*;
@@ -29,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.*;
 
 @Mixin(CreeperEntity.class)
 public abstract class CreeperEntityMixin {
+
 /*
     public CreeperEntityMixin(EntityType<? extends CreeperEntity> entityType, World world, CallbackInfo info) {
     //    super(entityType, world);
@@ -61,7 +64,18 @@ public abstract class CreeperEntityMixin {
             e = FarsightedMobs.upgradeEntity(e);
             System.out.println("DEBUG: initGoals() hook executed.");
         }
-
     }
 
+    @Inject(method = "getIgnited()Z", 
+    at = @At("TAIL"))
+    private void m_getIgnited(CallbackInfoReturnable info) {
+        if ((Object)(this) instanceof CreeperEntity) {
+            // test: 2023-09-02; fuse speed adjustment.  When ignited, fuse speed transitions
+            // from -1 to 1.  Check and adjust.
+            if (((CreeperEntity)(Object)(this)).getFuseSpeed() == 1) {
+                ((CreeperEntity)(Object)(this)).setFuseSpeed(3);
+                System.out.println("DEBUG: Adjusted fuse speed to: " + ((CreeperEntity)(Object)(this)).getFuseSpeed());
+            }
+        }
+    }
 } // end class CreeperEntityMixin
